@@ -1,0 +1,51 @@
+{%extends 'base.html'%}
+
+{%block body_block%}
+<div class="container mt-3">
+    <div class="w-100">
+      <h2 class="text-warning mt-2">TRENDING</h2>
+      <hr class="bg-secondary" style="height: 6px; width: 170px;">
+    </div>
+    <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          {%for tr in trending%}
+          <div class="carousel-item active">
+            <img src="{{tr.image.url}}" class="d-block w-100" alt="..." width="100%" height="500px" style="object-fit: fill;">
+          </div>
+          {%endfor%}
+          
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+</div>
+<div class="container">
+  <div class="w-100">
+    <h2 class="text-warning mt-2">More To Watch</h2>
+    <hr class="bg-secondary" style="height: 6px; width: 170px;">
+  </div>
+  <div class="d-flex flex-wrap gap-3">
+  {%for m in movie%}
+  
+    <div class="card bg-dark" style="width: 18rem;">
+      <img src="{{m.image.url}}" class="card-img-top" alt="..." style="height: 290px; max-width: 290px;">
+      <div class="card-body">
+        <h5 class="card-title text-light">{{m.name}}</h5>
+        <p class="card-text text-light">{{m.average_rating}} <span class="ms-1"><i class="fa-solid fa-star" style="color: #FFD43B;"></i></span></p>
+        <a href="{%url 'movie-detail' m.id%}" class="btn btn-primary">See More</a>
+        <p class="card-text mt-3"><a href="{{m.trailer}}" class=" text-light text-decoration-none"><i class="fa-solid fa-play" style="color: #fcfcfc;"></i> <span class="ms-1">Watch Trailer</span></a></p>
+
+      </div>
+    </div>
+  
+  {%endfor%}
+</div>
+</div>
+
+{%endblock%}

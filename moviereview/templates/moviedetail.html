@@ -1,0 +1,33 @@
+{%extends 'base.html'%}
+
+{%block body_block%}
+{%if movie%}
+<div class="container mt-4" style="background-color: rgb(12, 12, 12);">
+    <div class="card mb-3" style="background-color: rgb(12, 12, 12);">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <div class="card text-bg-dark">
+                <img src="{{movie.image.url}}" width="500px" height="300px" class="card-img" alt="...">
+                <div class="card-img-overlay">
+                  <h5 class="card-title"><a href=""><i class="fa-regular fa-bookmark fa-xl" style="color:rgb(250, 246, 246,0.7);"></i></a></h5>
+                </div>
+              </div>
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h1 class="card-title text-white">{{movie.name}}</h1>
+              <p class="card-text text-white"><h5 class="text-white">{{movie.storyline}}</h5></p>
+              <div class="d-flex gap-3">
+                {%for g in movie.genre.all%}
+              <h5><span class="badge rounded-pill text-bg-primary">{{g.name}}</span></h5>
+              {%endfor%}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+
+{%endif%}
+
+{%endblock%}
