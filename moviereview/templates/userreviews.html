@@ -1,0 +1,24 @@
+{%extends 'base.html'%}
+
+{%block body_block%}
+<div class="container mt-3">
+    <div class="ms-auto me-auto" style="width: 100vh;">
+        {%for r in review%}
+        <div class="card mb-3 black-bg text-white" style="max-width: 540px;">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <a href="{%url 'movie-detail' r.movie.id%}"><img src="{{r.movie.image.url}}" class="img-fluid rounded-start" alt="..." style="width: 200px; height: 175px;"></a>
+            </div>
+            <div class="col-md-8 ">
+                <div class="card-body">
+                <h5 class="card-title">{{r.title}}</h5>
+                <p class="card-text overflow-y-scroll" style="height: 100px;">{{r.text}}</p>
+                <p class="card-text"><small class="text-secondary">{{r.created_date|date}}</small></p>
+                </div>
+            </div>
+            </div>
+        </div>
+        {%endfor%}
+    </div>
+</div>
+{%endblock%}

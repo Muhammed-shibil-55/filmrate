@@ -10,23 +10,91 @@
                 <img src="{{movie.image.url}}" width="500px" height="300px" class="card-img" alt="...">
                 <div class="card-img-overlay">
                   <h5 class="card-title"><a href=""><i class="fa-regular fa-bookmark fa-xl" style="color:rgb(250, 246, 246,0.7);"></i></a></h5>
+                  
                 </div>
               </div>
           </div>
           <div class="col-md-8">
             <div class="card-body">
               <h1 class="card-title text-white">{{movie.name}}</h1>
+              <p class="card-text text-white"><span class="me-1">{{movie.language|capfirst}}</span><span class="mx-2">{{movie.year}}</span><span class="mx-2">{{movie.certification}}</span><span class="ms-1">{{movie.runtime}}</span></p>
               <p class="card-text text-white"><h5 class="text-white">{{movie.storyline}}</h5></p>
               <div class="d-flex gap-3">
                 {%for g in movie.genre.all%}
               <h5><span class="badge rounded-pill text-bg-primary">{{g.name}}</span></h5>
               {%endfor%}
               </div>
+              <hr>
+              <div class="d-flex gap-3">
+              
+              <a href="{{movie.trailer}}" class="btn btn-outline-secondary">Watch Trailer</a>
+              
+              </div>
+              
             </div>
           </div>
         </div>
+        <div class="mb-3">
+          <hr>
+          <h6 class="card-text text-white ms-1">Director : <span class="text-primary">{{movie.director}}</span></h6>
+          <hr>
+          <h6 class="card-text text-white ms-1">Writer : <span class="text-primary">{{movie.writer}}</span></h6>
+          <hr>
+          <h6 class="card-text text-white ms-1">Cast : <span class="text-primary">{{movie.cast}}</span></h6>
+          <hr>
+          <h6 class="card-text text-white ms-1">Writer : <span class="text-primary">{{movie.writer}}</span></h6>
+          <hr>
+        </div>
+        <div class="mb-3">
+          <div class="mb-2">
+            <h2 class="text-white">
+              Reviews
+            </h2>
+            <hr class="bg-warning" style="width: 120px; height: 5px;">
+          </div>
+          <div class="mb-2 overflow-y-scroll" style="height: 600px;">
+            {%for m in movie.Movie_reviews%}
+            <div class="card black-bg shadow my-2">
+              <div class="card-body text-white">
+                <h5 class="card-title">{{m.title}}</h5>
+                <div class="d-flex  justify-content-between">
+                <h6 class="card-subtitle mb-2">{{m.user.username}}</h6>
+                <h6 class="card-text">{{m.rating}} <i class="fa-solid fa-star" style="color: #FFD43B;"></i> <span class="ms-3"><a href=""><i class="fa-regular fa-heart" style="color: #373736;"></i></a></span></h6>
+                
+                </div>
+                <p class="card-text">{{m.text}}</p>
+                <p class="card-text text-secondary">{{m.created_date|date}}</p>
+                
+              </div>
+            </div>
+            {%endfor%}
+          </div>
+          
+        </div>
       </div>
+      <form action="{%url 'review-add' movie.id%}" method="post">
+        {%csrf_token%}
+        <div class="mb-1 text-white" style="width: 18rem;">
+          <label for="title">Title :</label>
+          {{form.title}}
+        </div>
+        <div class="mb-1 text-white" style="width: 18rem;">
+          <label for="text">Review :</label>
+          {{form.text}}
+          
+        </div>
+        <div class="mb-1 text-white" style="width: 18rem;">
+          <label for="rating">Rating : </label>
+          {{form.rating}}
+        </div>
+        <div class="mb-3">
+          <button class="btn btn-outline-secondary" type="submit">ADD</button>
+        </div>
+      </form>
+      
 </div>
+
+
 
 {%endif%}
 

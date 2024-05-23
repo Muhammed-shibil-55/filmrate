@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 
 # Create your views here.
-from moviereview.forms import RegisterForm,LoginForm
+from moviereview.forms import RegisterForm,LoginForm,ReviewForm
 from moviereview.models import Movie
 
 class SignUpView(View):
@@ -49,8 +49,28 @@ class IndexView(View):
     
 class MovieDetailView(View):
     def get(self,request,*args,**kwargs):
+        form=ReviewForm()
         id=kwargs.get("pk")
         qs=Movie.objects.get(id=id)
-        return render(request,'moviedetail.html',{"movie":qs})
+        return render(request,'moviedetail.html',{"movie":qs,"form":form})
+    
+
+class ReviewAddView(View):
+    def post(self,request,*args,**kwargs):
+        id=kwargs.get("pk")
+        movie_obj=Movie.objects.get(id=id)
+        form=ReviewForm(request.POST)
+        if form.is_valid():
+            form.instance.user=request.user
+            form.instance.movie=movie_obj
+            form.save()
+            return redirect('movie-detail',pk=id)
+        return redirect('movie-detail',pk=id)
+    
+
+class UserReviewsView(View):
+    def get(self,request,*args,**kwargs):
+        qs=self.request.user.user_review.all().order_by('-created_date')
+        return render(request,'userreviews.html',{"review":qs})
 
 

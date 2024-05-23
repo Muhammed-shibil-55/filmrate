@@ -38,7 +38,7 @@ class Movie(models.Model):
     
     @property
     def Movie_reviews(self):
-        qs=self.review.all()
+        qs=self.review.all().order_by("-created_date")
         return qs
     
     @property
@@ -53,7 +53,8 @@ class Movie(models.Model):
     
     
 class Review(models.Model):
-    text=models.CharField(max_length=500)
+    
+    text=models.CharField(max_length=1000)
     options=((1,1),(1.5,1.5),(2,2),(2.5,2.5),(3,3),(3.5,3.5),(4,4),(4.5,4.5),(5,5))
     rating=models.FloatField(choices=options,default=4)
     movie=models.ForeignKey(Movie,on_delete=models.CASCADE,related_name="review")
@@ -62,6 +63,7 @@ class Review(models.Model):
     updated_date=models.DateTimeField(auto_now=True)
     is_active=models.BooleanField(default=True)
     liked_by=models.ManyToManyField(User)
+    title=models.CharField(max_length=200,null=True)
 
     def __str__(self) -> str:
         return self.text
