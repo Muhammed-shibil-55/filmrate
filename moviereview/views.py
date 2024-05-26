@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate,login,logout
 
 # Create your views here.
 from moviereview.forms import RegisterForm,LoginForm,ReviewForm
-from moviereview.models import Movie
+from moviereview.models import Movie,Review
 
 class SignUpView(View):
     def get(self,request,*args,**kwargs):
@@ -74,3 +74,26 @@ class UserReviewsView(View):
         return render(request,'userreviews.html',{"review":qs})
 
 
+class MovieSearchView(View):
+    def post(self,request,*args,**kwargs):
+        movie=request.POST.get("box")
+        qs=Movie.objects.filter(name__icontains=movie)
+        return render(request,'search_results.html',{"movies":qs})
+    
+class ReviewLikeView(View):
+    def get(self,request,*args,**kwargs):
+        id=kwargs.get("pk")
+        qs=Review.objects.get(id=id)
+        qs.liked_by.add(request.user)
+        qs.save()
+        request.user.profile.liked_reviews.add(qs)
+        return redirect('movie-detail',pk=qs.movie.id)
+    
+class ReviewUnLikeView(View):
+    def get(self,request,*args,**kwargs):
+        id=kwargs.get("pk")
+        qs=Review.objects.get(id=id)
+        qs.liked_by.remove(request.user)
+        qs.save()
+        request.user.profile.liked_reviews.remove(qs)
+        return redirect('movie-detail',pk=qs.movie.id)

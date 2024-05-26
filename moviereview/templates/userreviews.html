@@ -1,7 +1,22 @@
 {%extends 'base.html'%}
 
 {%block body_block%}
-<div class="container mt-3">
+<nav id="navbar-example2" class="navbar bg-body-dark px-3 mb-3">
+    <a class="navbar-brand" href="#"></a>
+    <ul class="nav nav-pills">
+      <li class="nav-item">
+        <a class="nav-link" href="#yourreview">Your Reviews</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#likedreviews">Liked Reviews</a>
+      </li>
+      
+    </ul>
+  </nav>
+  
+
+<div data-bs-spy="scroll" data-bs-target="#navbar-example2" data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true" class="scrollspy-example  p-3 rounded-2 black-bg" tabindex="0">
+<div class="container " id="yourreview">
     <div class="ms-auto me-auto" style="width: 100vh;">
         {%for r in review%}
         <div class="card mb-3 black-bg text-white" style="max-width: 540px;">
@@ -20,5 +35,32 @@
         </div>
         {%endfor%}
     </div>
+</div>
+<div class="container" id="likedreviews">
+    <div class="mb-2">
+        <h2 class="text-white">
+          Liked Reviews
+        </h2>
+        <hr class="bg-warning" style="width: 180px; height: 5px;">
+      </div>
+      <div class="ms-auto me-auto" style="width: 100vh;">
+        {%for r in request.user.profile.liked_reviews.all%}
+        <div class="card mb-3 black-bg text-white" style="max-width: 540px;">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <a href="{%url 'movie-detail' r.movie.id%}"><img src="{{r.movie.image.url}}" class="img-fluid rounded-start" alt="..." style="width: 200px; height: 175px;"></a>
+            </div>
+            <div class="col-md-8 ">
+                <div class="card-body">
+                <h5 class="card-title">{{r.title}}</h5>
+                <p class="card-text overflow-y-scroll" style="height: 100px;">{{r.text}}</p>
+                <p class="card-text"><small class="text-secondary">{{r.created_date|date}}</small></p>
+                </div>
+            </div>
+            </div>
+        </div>
+        {%endfor%}
+    </div>
+</div>
 </div>
 {%endblock%}

@@ -59,7 +59,13 @@
                 <h5 class="card-title">{{m.title}}</h5>
                 <div class="d-flex  justify-content-between">
                 <h6 class="card-subtitle mb-2">{{m.user.username}}</h6>
-                <h6 class="card-text">{{m.rating}} <i class="fa-solid fa-star" style="color: #FFD43B;"></i> <span class="ms-3"><a href=""><i class="fa-regular fa-heart" style="color: #373736;"></i></a></span></h6>
+                <h6 class="card-text">{{m.rating}} <i class="fa-solid fa-star" style="color: #FFD43B;"></i> 
+                  {%if m in request.user.profile.liked_reviews.all%}
+                  <span class="ms-3"><a href="{%url 'review-unlike' m.id%}"><i class="fa-solid fa-heart" style="color: #ed1818;"></i></a></span><span class="text-secondary text-decoration-none ms-1">{{m.liked_by.all|length}}</span>
+                  {%else%}
+                  <span class="ms-3"><a href="{%url 'review-like' m.id%}"><i class="fa-regular fa-heart" style="color: #373736;"></i></a></span><span class="text-secondary text-decoration-none ms-1">{{m.liked_by.all|length}}</span>
+                  {%endif%}
+                </h6>
                 
                 </div>
                 <p class="card-text">{{m.text}}</p>
